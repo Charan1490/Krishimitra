@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishimitra Registration Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .visible {
+            display: block;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-green-50 font-sans h-screen">
+    <div class="flex flex-col h-full">
+        <!-- Top bar with navigation -->
+        <div class="flex justify-between items-center bg-green-600 text-white p-6">
+            <div class="flex space-x-8">
+                <a href="#" class="hover:text-green-300" id="homeLink">Home</a>
+                <a href="#" class="hover:text-green-300" id="aboutLink">About</a>
+            </div>
+            <h1 class="text-lg font-bold">KRISHIMITRA</h1>
+            <div class="flex space-x-8">
+                <a href="#" class="hover:text-green-300" id="feedbackLink">Feedback</a>
+                <a href="#" class="hover:text-green-300" id="contactLink">Contact Us</a>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="flex-grow flex">
+            <div class="w-1/2 bg-white p-10 flex flex-col justify-center">
+                <!-- Logo -->
+                <div class="mb-8 text-center">
+                    <img src="images/logo.jpg" alt="Agriculture logo" class="mx-auto mb-4" style="width: 100px; height: 100px;">
+                    <h1 class="text-3xl font-bold text-green-600">Create New Account</h1>
+                </div>
+                <!-- Register Form -->
+                <form id="registerForm" action="/register" method="POST" class="space-y-4">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name</label>
+                        <input name="name" class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" type="text" id="name" placeholder="Name" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
+                        <input name="email" class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" type="email" id="email" placeholder="Email" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+                        <input name="password" class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" type="password" id="password" placeholder="Password" required>
+                    </div>
+                    <div>
+                        <button class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" type="submit">
+                            Sign Up
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Login Form -->
+                <form id="loginForm" action="/login" method="POST" class="space-y-4 hidden">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
+                        <input name="email" class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" type="email" id="emailLogin" placeholder="Email" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+                        <input name="password" class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" type="password" id="passwordLogin" placeholder="Password" required>
+                    </div>
+                    <div>
+                        <button class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" type="submit">
+                            Login
+                        </button>
+                    </div>
+                </form>
+                <p class="mt-4 text-sm text-center text-gray-600">Already Registered? <a href="#" id="toggleForms" class="text-green-600 font-bold">Login</a></p>
+            </div>
+
+            <!-- Right side - Background image -->
+            <div class="w-1/2 bg-cover bg-center" style="background-image: url('images/background.jpg');">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('toggleForms').addEventListener('click', function(e) {
+            e.preventDefault();
+            const registerForm = document.getElementById('registerForm');
+            const loginForm = document.getElementById('loginForm');
+
+            if (registerForm.classList.contains('hidden')) {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+            } else {
+                registerForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishimitra - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-image: url('images/image.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Roboto', sans-serif;
+        }
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .hero-overlay {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 40px;
+        }
+        /* Chatbox Styles */
+        #chatbox {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 300px;
+            height: 400px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+        #chatHistory {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        #chatInput {
+            width: 80%;
+            padding: 10px;
+            border: none;
+        }
+        #chatSendButton {
+            width: 20%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Navbar -->
+    <header class="navbar flex items-center justify-between px-10 py-4">
+        <div class="flex items-center">
+            <img src="images/logo.jpg" alt="Krishimitra Logo" class="w-12 h-12">
+            <h1 class="ml-3 text-2xl font-bold text-green-700">KRISHIMITRA</h1>
+        </div>
+        <nav class="flex space-x-8">
+            <a href="#" class="text-lg text-gray-700 hover:text-green-700 transition duration-200">Profile</a>
+            <a href="#" class="text-lg text-gray-700 hover:text-green-700 transition duration-200">Chat</a>
+            <a href="#" class="text-lg text-gray-700 hover:text-green-700 transition duration-200">Weather report</a>
+            <a href="#" class="text-lg text-gray-700 hover:text-green-700 transition duration-200">Analysis</a>
+            <a href="#" class="text-lg text-gray-700 hover:text-green-700 transition duration-200">Stats</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative flex items-center justify-center text-center text-white" style="height: calc(100vh - 120px);">
+        <div class="hero-overlay absolute inset-0 z-10 flex items-center justify-center">
+            <div>
+                <h2 class="text-6xl font-extrabold drop-shadow-lg">SUSTAINABLE</h2>
+                <h2 class="text-6xl font-extrabold drop-shadow-lg">AGRICULTURE</h2>
+                <p class="mt-6 text-xl text-gray-300">
+                    Elevate your harvest with our innovative Sustainable Agriculture solutions<sup>SM</sup>. Experience the future of farming as we cultivate sustainability, efficiency, and abundance.
+                </p>
+                <div class="mt-8 flex items-center justify-center space-x-4 text-xl">
+                    <i class="fas fa-database text-3xl text-blue-400"></i>
+                    <a href="#" class="hover:underline text-blue-200 transition duration-200">Crops Database</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-green-700 py-8 text-white text-lg">
+        <div class="flex items-center justify-between px-20">
+            <button class="bg-white text-green-700 font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition duration-200">SHOP NOW</button>
+            <a href="https://www.example.com" class="flex items-center text-lg hover:underline">
+                <i class="fas fa-globe mr-2"></i>
+                Visit Our Website: www.example.com
+            </a>
+            <!-- Social Icons -->
+            <div class="flex space-x-4">
+                <a href="#"><i class="fab fa-facebook-f text-xl hover:text-gray-200 transition duration-200"></i></a>
+                <a href="#"><i class="fab fa-twitter text-xl hover:text-gray-200 transition duration-200"></i></a>
+                <a href="#"><i class="fab fa-instagram text-xl hover:text-gray-200 transition duration-200"></i></a>
+            </div>
+        </div>
+        <!-- Chatbot Logo -->
+        <div class="absolute bottom-4 right-4 cursor-pointer">
+            <img src="images/chatbot.png" alt="Chatbot Logo" class="w-16 h-16" id="chatbotIcon">
+        </div>
+    </footer>
+
+    <!-- Chatbox -->
+    <div id="chatbox">
+        <div id="chatHistory"></div>
+        <input type="text" id="chatInput" placeholder="Type a message...">
+        <button id="chatSendButton">Send</button>
+    </div>
+
+    <!-- Include Chatbot JS -->
+    <script>
+        // Toggle chatbox visibility
+        document.getElementById('chatbotIcon').addEventListener('click', function() {
+            const chatbox = document.getElementById('chatbox');
+            chatbox.style.display = chatbox.style.display === 'none' ? 'flex' : 'none';
+        });
+
+        // Send message to chatbot
+        document.getElementById('chatSendButton').addEventListener('click', async function() {
+            const chatInput = document.getElementById('chatInput');
+            const message = chatInput.value.trim();
+            const chatHistory = document.getElementById('chatHistory');
+
+            if (!message) return;
+
+            // Add user message to chat history
+            const userMessage = document.createElement('div');
+            userMessage.textContent = `You: ${message}`;
+            chatHistory.appendChild(userMessage);
+
+            // Clear input
+            chatInput.value = '';
+
+            // Send message to server
+            const response = await fetch('/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message }),
+            });
+
+            const data = await response.json();
+
+            // Add chatbot response to chat history
+            const botMessage = document.createElement('div');
+            botMessage.textContent = `Bot: ${data.reply}`;
+            chatHistory.appendChild(botMessage);
+
+            // Scroll to the bottom of chat history
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        });
+    </script>
+</body>
+</html>
